@@ -1,8 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt_br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Caixa  Iinnova</title>
+    <meta charset="UTF-8">
+    <title>Caixa Iinnova</title>
 </head>
+
 <body>
+    <form id="productForm">
+        <label for="name">Nome do Produto:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="price">Preço do Produto:</label>
+        <input type="number" id="price" name="price" required>  
+        
+        <input type="submit" id="submitButton" value="Enviar">
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('productForm');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const productData = {
+                    name: formData.get('name'),
+                    price: parseFloat(formData.get('price'))
+                };
+
+                axios.post('/carrinho', productData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    console.log('Requisição enviada com sucesso:', response);
+                })
+                .catch(function(error) {
+                    console.error('Erro ao enviar requisição:', error);
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
+
