@@ -9,7 +9,7 @@ public class EstoqueRepositorie {
     
     public static LinkedList<Produto> produtos = new LinkedList<Produto>();
 
-    public void addProduto(Produto produto) {
+    public static void addProduto(Produto produto) {
         produtos.add(produto);
     }
 

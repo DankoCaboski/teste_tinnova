@@ -10,7 +10,8 @@ public class EstoqueService {
     
     public static boolean produtInStock(Produto produto) {
         for (Produto item : EstoqueRepositorie.getProdutos()) {
-            if (produto.getName() == item.getName()) {
+            System.out.println("Produto no estoque: " + item.getName());
+            if (produto.getName().equals(produto.getName())) {
                 return true;
             }
         }

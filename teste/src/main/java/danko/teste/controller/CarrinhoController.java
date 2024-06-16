@@ -27,6 +27,7 @@ public class CarrinhoController {
     @PostMapping
     public ResponseEntity<?> addProduto(@RequestBody ProdutoDTO produto) {
         Produto produtoToAdd = new Produto(produto);
+        System.out.println("Produto a ser adicionado no carrinho: " + produtoToAdd.getName());
         return carrinho.addProduto(produtoToAdd);
     }
     
