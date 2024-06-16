@@ -28,12 +28,11 @@
     
                 data.forEach(item => {
                     const li = document.createElement('li');
-                    li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`; // Exemplo: exibir nome e preço formatado
-                    itemList.appendChild(li);
-                    totalPrice += item.price; // Supondo que o preço esteja no objeto 'item'
+                    li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
+                    totalPrice += item.price;
                 });
     
-                totalPriceDiv.textContent = `Total: R$ ${totalPrice.toFixed(2)}`; // Exemplo: exibir o preço total formatado
+                totalPriceDiv.textContent = `Total: R$ ${totalPrice.toFixed(2)}`;
             })
             .catch(error => console.error('Error:', error));
     </script>

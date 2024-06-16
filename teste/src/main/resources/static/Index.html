@@ -27,6 +27,7 @@
             <h2>
                 Aqui você pode adicionar produtos ao carrinho
             </h2>
+            <h3 id="status"></h3>
         </div>
         <label for="name">Nome do Produto:</label>
         <input type="text" id="name" name="name" required>
@@ -42,7 +43,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const inventoryForm = document.getElementById('inventoryForm');
             const cartForm = document.getElementById('cartForm');
-
+            const statusElement = document.getElementById('status');
             inventoryForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
@@ -80,10 +81,17 @@
                     }
                 })
                 .then(function(response) {
-                    console.log('Requisição para carrinho enviada com sucesso:', response);
+                    if (response.status === 201) {
+                        console.log('Produto adicionado ao carrinho com sucesso:', response);
+                    }
                 })
                 .catch(function(error) {
-                    console.error('Erro ao enviar requisição para carrinho:', error);
+                    if (error.response.status === 400) {
+                        statusElement.textContent = 'Produto não encontrado no estoque';
+                    }
+                    else {
+                        console.error('Erro ao adicionar produto ao carrinho:', error);
+                    }
                 });
             });
         });

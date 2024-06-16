@@ -2,6 +2,10 @@ package danko.teste.entities;
 
 import java.util.LinkedList;
 
+import org.springframework.http.ResponseEntity;
+
+import danko.teste.service.EstoqueService;
+
 public class Carrinho {
     public static LinkedList<Produto> myCart = new LinkedList<Produto>();
     
@@ -9,8 +13,14 @@ public class Carrinho {
         return myCart;
     }
 
-    public void addProduto(Produto produto) {
-        myCart.add(produto);
+    public ResponseEntity<?> addProduto(Produto produto) {
+        if (EstoqueService.produtInStock(produto)) {
+            myCart.add(produto);
+        return ResponseEntity.status(201).body("Produto adicionado ao carrinho");
+        }
+        else {
+            return ResponseEntity.status(400).body("O produto não existe no estoque");
+        }
     }
 
     public void removeProduto(Produto produto) {

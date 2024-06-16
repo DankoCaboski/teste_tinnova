@@ -2,6 +2,7 @@ package danko.teste.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,9 @@ public class CarrinhoController {
     }
 
     @PostMapping
-    public void addProduto(@RequestBody ProdutoDTO produto) {
+    public ResponseEntity<?> addProduto(@RequestBody ProdutoDTO produto) {
         Produto produtoToAdd = new Produto(produto);
-        carrinho.addProduto(produtoToAdd);
+        return carrinho.addProduto(produtoToAdd);
     }
     
 }

@@ -13,7 +13,7 @@ public class EstoqueRepositorie {
         produtos.add(produto);
     }
 
-    public List<Produto> getProdutos() {
+    public static List<Produto> getProdutos() {
         return produtos;
     }
 }
