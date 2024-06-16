@@ -10,29 +10,47 @@
         <ul id="item-list"></ul>
     </div>
 
-    
     <div id="total-price">
+        Total: R$ <span id="total-price-value">0.00</span>
     </div>
-    
-    <button id="checkout-btn">Meus produtos</button>
+
+    <button id="discount-button">Aplicar desconto (5%)</button>
     
     <script>
         fetch('http://localhost:8080/carrinho')
             .then(response => response.json())
             .then(data => {
                 const itemList = document.getElementById('item-list');
-                const totalPriceDiv = document.getElementById('total-price');
+                const totalPriceSpan = document.getElementById('total-price-value');
                 let totalPrice = 0;
     
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
-                    totalPrice += item.price;
+                    itemList.appendChild(li); // Adiciona o item à lista de itens
+                    
+                    totalPrice += item.price; // Soma o preço do item ao total
                 });
     
-                totalPriceDiv.textContent = `Total: R$ ${totalPrice.toFixed(2)}`;
+                totalPriceSpan.textContent = totalPrice.toFixed(2); // Atualiza o total exibido
             })
             .catch(error => console.error('Error:', error));
+
+        let vezes = 0;
+        document.getElementById('discount-button').addEventListener('click', () => {
+            if (vezes == 0) {
+                const totalPriceSpan = document.getElementById('total-price-value');
+                let totalPrice = parseFloat(totalPriceSpan.textContent);
+                
+                // Calculate the discount
+                const discount = totalPrice * 0.05;
+                totalPrice -= discount;
+                
+                // Update the total price
+                totalPriceSpan.textContent = totalPrice.toFixed(2);
+            }
+            vezes++;
+        });
     </script>
     
 </body>
