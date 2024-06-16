@@ -8,6 +8,7 @@ public class TinnovaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TinnovaApplication.class, args);
+        System.out.println("Servidor online!");
 	}
 
 }
