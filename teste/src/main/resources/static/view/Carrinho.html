@@ -14,7 +14,13 @@
         Total: R$ <span id="total-price-value">0.00</span>
     </div>
 
-    <button id="discount-button">Aplicar desconto (5%)</button>
+    <button id="discount-button">Aplicar desconto (5%)</button><br><br>
+
+    <label for="discount-input">Porcentagem de desconto:</label>
+    <input type="number" id="discount-input" placeholder="Informe a porcentagem"><br>
+
+    <button id="desconto-especial">Aplicar desconto especial</button>
+
     
     <script>
         fetch('http://localhost:8080/carrinho')
@@ -27,12 +33,12 @@
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = `${item.name} - R$ ${item.price.toFixed(2)}`;
-                    itemList.appendChild(li); // Adiciona o item à lista de itens
+                    itemList.appendChild(li);
                     
-                    totalPrice += item.price; // Soma o preço do item ao total
+                    totalPrice += item.price;
                 });
     
-                totalPriceSpan.textContent = totalPrice.toFixed(2); // Atualiza o total exibido
+                totalPriceSpan.textContent = totalPrice.toFixed(2);
             })
             .catch(error => console.error('Error:', error));
 
@@ -42,15 +48,40 @@
                 const totalPriceSpan = document.getElementById('total-price-value');
                 let totalPrice = parseFloat(totalPriceSpan.textContent);
                 
-                // Calculate the discount
                 const discount = totalPrice * 0.05;
                 totalPrice -= discount;
                 
-                // Update the total price
                 totalPriceSpan.textContent = totalPrice.toFixed(2);
             }
             vezes++;
         });
+
+        document.getElementById('desconto-especial').addEventListener('click', () => {
+            const discountPercentage = parseFloat(document.getElementById('discount-input').value);
+        
+            if (isNaN(discountPercentage) || discountPercentage <= 0) {
+                alert('Por favor, insira uma porcentagem válida de desconto maior que zero.');
+                return;
+            }
+        
+            fetch(`http://localhost:8080/caixa/discount`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    totalPrice: parseFloat(document.getElementById('total-price-value').textContent),
+                    discount: discountPercentage
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const totalPriceSpan = document.getElementById('total-price-value');
+                totalPriceSpan.textContent = data.toFixed(2);
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        
     </script>
     
 </body>
