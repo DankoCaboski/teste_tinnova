@@ -15,6 +15,7 @@ public class Carrinho {
 
     public ResponseEntity<?> addProduto(Produto produto) {
         if (EstoqueService.produtInStock(produto)) {
+            produto.setPrice(EstoqueService.getPrice(produto));
             myCart.add(produto);
         return ResponseEntity.status(201).body("Produto adicionado ao carrinho");
         }

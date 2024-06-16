@@ -17,4 +17,18 @@ public class EstoqueService {
         }
         return false;
     }
+
+    public static Double getPrice(Produto produto) {
+        try {
+            for (Produto item : EstoqueRepositorie.getProdutos()) {
+                if (item.getName().equals(produto.getName())) {
+                    return item.getPrice();
+                }
+            };
+            return 0.0;
+         } catch (Exception e) {
+            System.out.println("Produto não encontrado no estoque");
+        }
+        return null;
+    }
 }
